@@ -8,15 +8,6 @@
 
 import Foundation
 
-public enum FileExtension: String {
-    case text = "txt"
-    case json
-
-    var value: String {
-        return self.rawValue
-    }
-}
-
 public struct FileReader {
     /// Reads data from a specified file
     /// - Parameters:
@@ -45,5 +36,21 @@ public struct FileReader {
         }
 
         return try! Data(contentsOf: URL(fileURLWithPath: url))
+    }
+
+    public func decodeJSON<T: Decodable>(in bundle: Bundle = .main, from filename: String) throws -> T {
+        guard let validData = FileReader.read(in: bundle, from: filename, and: .json) else {
+            debugPrint("Somebody moved/renamed the necessary resource file for \(filename)")
+            throw DecodeException.notFound
+        }
+
+        do {
+            let validJSON = try JSONDecoder().decode(T.self, from: validData)
+
+            return validJSON
+        } catch {
+            debugPrint("The file has a corrupted format")
+            throw DecodeException.unparseable
+        }
     }
 }
