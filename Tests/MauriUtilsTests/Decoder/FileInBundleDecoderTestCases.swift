@@ -40,7 +40,7 @@ final class FileInBundleDecoderTestCases: XCTestCase {
         }
     }
 
-    func testDecodingFromNonExistentFile() throws {
+    func testJSONDecodingFromNonExistentFile() throws {
         // When
         do {
             let _: TestUserMock = try fileReader.decodeJSON(from: "MockUser")
@@ -50,11 +50,32 @@ final class FileInBundleDecoderTestCases: XCTestCase {
         }
     }
 
+    func testPlistDecodingFromNonExistentFile() throws {
+        // When
+        do {
+            let _: TestUserMock = try fileReader.decodePlist(from: "MockUser")
+            XCTFail("It shouldn't have found any file")
+        } catch let error {
+            XCTAssertEqual(error as? DecodeException, .notFound)
+        }
+    }
+
     func testPlistDecodingFromAFileInBundle() throws {
-//        // When
-//        let decodedFile: FrameworkSetupMock = try XCTUnwrap(fileReader.decodeJSON(in: Bundle.module, from: "validJSON"))
-//
-//        // Then
-//        XCTAssertEqual(decodedFile.name, "Mauricio Chirino")
+        // When
+        let decodedFile: FrameworkSetupMock = try XCTUnwrap(fileReader.decodePlist(in: Bundle.module,
+                                                                                   from: "TrackingFrameworkSetup"))
+        // Then
+        XCTAssertEqual(decodedFile.key, "loremIpsumDoriem")
+    }
+
+    func testPlistDecodingErrorHandlingForTypeMismatch() throws {
+        // When
+        do {
+            let _: TestUserMock = try fileReader.decodePlist(in: Bundle.module, from: "TrackingFrameworkSetup")
+            XCTFail("It shouldn't have parsed the file into a wrong type")
+        } catch let producedError {
+            // Then
+            XCTAssertEqual(producedError as? DecodeException, .unparseable)
+        }
     }
 }

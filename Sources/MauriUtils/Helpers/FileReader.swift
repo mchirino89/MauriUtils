@@ -31,7 +31,7 @@ public struct FileReader {
     /// - Returns: If successful, raw data retrieved from the file. Otherwise (file not found) a `nil` value is returned
     public func readAt(url: String) -> Data? {
         if !FileManager.default.fileExists(atPath: url) {
-            NSLog("File doesn't exist: \(url)")
+            debugPrint("File doesn't exist: \(url)")
             return nil
         }
 
@@ -59,7 +59,7 @@ public struct FileReader {
         }
 
         do {
-            let validPlist = try PropertyListDecoder().decode(T.self, from: validData)
+            let validPlist: T = try PlistDecodable.map(input: validData)
 
             return validPlist
         } catch {
