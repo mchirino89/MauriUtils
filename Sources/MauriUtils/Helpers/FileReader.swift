@@ -44,7 +44,7 @@ public struct FileReader {
         }
 
         do {
-            let validJSON = try JSONDecoder().decode(T.self, from: validData)
+            let validJSON: T = try JSONDecodable.map(input: validData)
 
             return validJSON
         } catch {

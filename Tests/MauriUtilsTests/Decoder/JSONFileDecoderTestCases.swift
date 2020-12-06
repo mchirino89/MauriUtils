@@ -25,7 +25,7 @@ final class JSONFileDecoderTestCases: XCTestCase {
     func testJSONDecodingFromAFileInBundle() {
         // When
         do {
-            let decodedFile: TestUser = try fileReader.decodeJSON(in: Bundle(for: Self.self), from: "validJSON")
+            let decodedFile: TestUser = try fileReader.decodeJSON(in: Bundle.module, from: "validJSON")
             XCTAssertEqual(decodedFile.name, "Mauricio Chirino")
         } catch let error {
             XCTFail("Failed due to \(error.localizedDescription)")

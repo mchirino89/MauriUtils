@@ -42,14 +42,13 @@ final class FileReaderTest: XCTestCase {
         }
     }
 
-//    func testJSONReadingFromBundle() {
-//        let testBundle: Bundle = Bundle.module.path(forResource: "validJSON", ofType: "json")
-//        let localFile = fileReader.read(in: Bundle(for: type(of: self)), from: "validJSON")
-//        XCTAssertNotNil(localFile)
-//    }
+    func testJSONReadingFromBundle() {
+        let localFile = fileReader.read(in: Bundle.module, from: "validJSON")
+        XCTAssertNotNil(localFile)
+    }
 
     func testNonExistingFileFromBundle() {
-        let localFile = fileReader.read(in: Bundle(for: type(of: self)), from: "loremIpsum", and: .plist)
+        let localFile = fileReader.read(in: Bundle.module, from: "loremIpsum", and: .plist)
         XCTAssertNil(localFile)
     }
 
