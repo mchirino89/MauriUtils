@@ -31,7 +31,7 @@ final class FileReaderTest: XCTestCase {
                                                  withIntermediateDirectories: true,
                                                  attributes: nil)
         let filePath = folderPath.appending(fileName)
-        guard let json = try? JSONEncoder().encode(TestUser()) else {
+        guard let json = try? JSONEncoder().encode(TestUserMock()) else {
             XCTFail("Something went wrong when encoding test User structure")
             return
         }

@@ -1,5 +1,5 @@
 //
-//  TestUser.swift
+//  TestUserMock.swift
 //  MauriUtilsTests
 //
 //  Created by Mauricio Chirino on 19/04/2019.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct TestUser: Codable {
+struct TestUserMock: Codable {
     let name: String
     let age: Int
     let birthday: Int
@@ -20,8 +20,8 @@ struct TestUser: Codable {
     }
 }
 
-extension TestUser {
-    static func ==(lhs: TestUser, rhs: TestUser) -> Bool {
+extension TestUserMock {
+    static func ==(lhs: TestUserMock, rhs: TestUserMock) -> Bool {
         return lhs.name == rhs.name && lhs.age == rhs.age && lhs.birthday == rhs.birthday
     }
 }

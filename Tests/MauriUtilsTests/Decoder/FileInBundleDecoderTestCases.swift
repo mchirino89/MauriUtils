@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  FileInBundleDecoderTestCases.swift
 //  
 //
 //  Created by Mauricio Chirino on 05/12/20.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import MauriUtils
 
-final class JSONFileDecoderTestCases: XCTestCase {
+final class FileInBundleDecoderTestCases: XCTestCase {
     var fileReader: FileReader!
 
     override func setUp() {
@@ -22,20 +22,18 @@ final class JSONFileDecoderTestCases: XCTestCase {
         fileReader = nil
     }
 
-    func testJSONDecodingFromAFileInBundle() {
+    func testJSONDecodingFromAFileInBundle() throws {
         // When
-        do {
-            let decodedFile: TestUser = try fileReader.decodeJSON(in: Bundle.module, from: "validJSON")
-            XCTAssertEqual(decodedFile.name, "Mauricio Chirino")
-        } catch let error {
-            XCTFail("Failed due to \(error.localizedDescription)")
-        }
+        let decodedFile: TestUserMock = try XCTUnwrap(fileReader.decodeJSON(in: Bundle.module, from: "validJSON"))
+
+        // Then
+        XCTAssertEqual(decodedFile.name, "Mauricio Chirino")
     }
 
     func testCorruptedJSONDecodingFromAFileInBundle() {
         // When
         do {
-            let _: TestUser = try fileReader.decodeJSON(in: Bundle.module, from: "corruptJSON")
+            let _: TestUserMock = try fileReader.decodeJSON(in: Bundle.module, from: "corruptJSON")
             XCTFail("Corrupted JSON should throw an exception")
         } catch let error {
             XCTAssertEqual(error as? DecodeException, .unparseable)
@@ -45,10 +43,18 @@ final class JSONFileDecoderTestCases: XCTestCase {
     func testDecodingFromNonExistentFile() throws {
         // When
         do {
-            let _: TestUser = try fileReader.decodeJSON(from: "MockUser")
+            let _: TestUserMock = try fileReader.decodeJSON(from: "MockUser")
             XCTFail("It shouldn't have found any file")
         } catch let error {
             XCTAssertEqual(error as? DecodeException, .notFound)
         }
+    }
+
+    func testPlistDecodingFromAFileInBundle() throws {
+//        // When
+//        let decodedFile: FrameworkSetupMock = try XCTUnwrap(fileReader.decodeJSON(in: Bundle.module, from: "validJSON"))
+//
+//        // Then
+//        XCTAssertEqual(decodedFile.name, "Mauricio Chirino")
     }
 }

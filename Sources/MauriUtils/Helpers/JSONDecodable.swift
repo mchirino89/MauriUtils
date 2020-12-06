@@ -1,5 +1,5 @@
 //
-//  Decoder.swift
+//  JSONDecodable.swift
 //  MauriUtils
 //
 //  Created by Mauricio Chirino on 24/03/2019.
@@ -7,13 +7,6 @@
 //
 
 import Foundation
-
-public enum JSONDecodableError: Error {
-    case missingKey(CodingKey)
-    case missingValue(Any.Type)
-    case wrongFormat(Any.Type)
-    case dataCorrupted(DecodingError.Context)
-}
 
 // This could also be a protocol
 public struct JSONDecodable {
@@ -31,16 +24,16 @@ public struct JSONDecodable {
             return try decoder.decode(T.self, from: input)
         } catch DecodingError.keyNotFound(let missingkey, _) {
             NSLog("Missing key: \(missingkey.stringValue).")
-            throw JSONDecodableError.missingKey(missingkey)
+            throw FileDecodableError.missingKey(missingkey)
         } catch DecodingError.valueNotFound(let missingValue, let context) {
             NSLog("Missing value for: \(missingValue). \(context.debugDescription)")
-            throw JSONDecodableError.missingValue(missingValue)
+            throw FileDecodableError.missingValue(missingValue)
         } catch DecodingError.typeMismatch(let missMatch, let context) {
             NSLog("Wrong type for: \(missMatch). \(context.debugDescription)")
-            throw JSONDecodableError.wrongFormat(missMatch)
+            throw FileDecodableError.wrongFormat(missMatch)
         } catch DecodingError.dataCorrupted(let context) {
             NSLog("Data is corruputed. \(context.debugDescription).")
-            throw JSONDecodableError.dataCorrupted(context)
+            throw FileDecodableError.dataCorrupted(context)
         }
     }
 }
