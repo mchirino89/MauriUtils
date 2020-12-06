@@ -12,14 +12,17 @@ import XCTest
 final class FileReaderTest: XCTestCase {
     let fileName = "Temporal.json"
     let folderPath = NSTemporaryDirectory()
+    var fileReader: FileReader!
 
     override func setUp() {
         super.setUp()
+        fileReader = FileReader()
         createTestingFile()
     }
 
     override func tearDown() {
         super.tearDown()
+        fileReader = nil
         try? FileManager.default.removeItem(atPath: folderPath)
     }
 
@@ -35,28 +38,28 @@ final class FileReaderTest: XCTestCase {
         do {
             try json.write(to: URL(fileURLWithPath: filePath))
         } catch {
-            NSLog("Failed to write JSON data: \(error.localizedDescription)")
+            debugPrint("Failed to write JSON data: \(error.localizedDescription)")
         }
     }
 
-    func testJSONReadingFromBundle() {
-        let testBundle: Bundle = Bundle.module.path(forResource: "validJSON", ofType: "json")
-        let localFile = FileReader.read(in: Bundle(for: type(of: self)), from: "validJSON")
-        XCTAssertNotNil(localFile)
-    }
+//    func testJSONReadingFromBundle() {
+//        let testBundle: Bundle = Bundle.module.path(forResource: "validJSON", ofType: "json")
+//        let localFile = fileReader.read(in: Bundle(for: type(of: self)), from: "validJSON")
+//        XCTAssertNotNil(localFile)
+//    }
 
     func testNonExistingFileFromBundle() {
-        let localFile = FileReader.read(in: Bundle(for: type(of: self)), from: "", and: .text)
+        let localFile = fileReader.read(in: Bundle(for: type(of: self)), from: "loremIpsum", and: .plist)
         XCTAssertNil(localFile)
     }
 
     func testReadLocalFile() {
         let path = folderPath + fileName
-        XCTAssertNotNil(FileReader.readAt(url: path))
+        XCTAssertNotNil(fileReader.readAt(url: path))
     }
 
     func testFailingReadingOfLocalFile() {
-        XCTAssertNil(FileReader.readAt(url: ""), "Returning nil if file isn't found")
+        XCTAssertNil(fileReader.readAt(url: ""), "Returning nil if file isn't found")
     }
 
 }

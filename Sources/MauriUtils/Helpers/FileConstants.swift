@@ -15,8 +15,4 @@ public enum DecodeException: Error {
 public enum FileExtension: String {
     case plist
     case json
-
-    var value: String {
-        return self.rawValue
-    }
 }

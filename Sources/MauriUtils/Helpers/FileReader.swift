@@ -16,10 +16,10 @@ public struct FileReader {
     ///   - type: file's extension. Defaults to `.json` type
     /// - Returns: If successful, raw data retrieved from the file. Otherwise (file not found) a `nil` value is returned
     public func read(in bundle: Bundle = .main,
-                            from filename: String,
-                            and type: FileExtension = .json) -> Data? {
-        guard let file = bundle.url(forResource: filename, withExtension: type.value) else {
-            debugPrint("No file found for \(filename).\(type.value)")
+                     from filename: String,
+                     and type: FileExtension = .json) -> Data? {
+        guard let file = bundle.url(forResource: filename, withExtension: type.rawValue) else {
+            debugPrint("No file found for \(filename).\(type.rawValue)")
             return nil
         }
 

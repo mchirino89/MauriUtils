@@ -9,8 +9,7 @@
 import XCTest
 @testable import MauriUtils
 
-class DecoderTests: XCTestCase {
-
+final class DecoderTests: XCTestCase {
     func testDecoding() {
         var userRawData: Data {
             return Data("""
