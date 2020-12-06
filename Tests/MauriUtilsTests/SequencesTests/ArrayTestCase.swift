@@ -48,4 +48,43 @@ final class ArrayTestCase: XCTestCase {
         // Then
         XCTAssert(randomElements.isEmpty, "Generated empty array when provided < 0 size")
     }
+
+    func testIsSingleElement() {
+            var testArray: [Any] = []
+            XCTAssertFalse(testArray.isSingleElement)
+            testArray.append("lorem ipsum")
+            XCTAssert(testArray.isSingleElement)
+        }
+
+        func testRearrangement() {
+            var originalOrder = [1, 2, 3]
+            let intendedOrder = [1, 3, 2]
+            XCTAssertFalse(originalOrder.elementsEqual(intendedOrder))
+            originalOrder.rearrange(from: 2, to: 1)
+            XCTAssert(originalOrder.elementsEqual(intendedOrder))
+        }
+
+        func testVoidRearrangement() {
+            var originalOrder = [1, 2, 3]
+            let intendedOrder = [1, 3, 2]
+            originalOrder.rearrange(from: 20, to: -1)
+            XCTAssertFalse(originalOrder.elementsEqual(intendedOrder))
+        }
+
+        func testMerging() {
+            var originalArray = [1, 2, 3]
+            let mergingArray = [2, 3, 4]
+            let intendedArray = [1, 2, 3, 4]
+            XCTAssertFalse(originalArray.elementsEqual(intendedArray))
+            originalArray.mergeElements(newElements: mergingArray)
+            XCTAssert(originalArray.elementsEqual(intendedArray))
+        }
+
+        func testRemoval() {
+            var originalArray = [1, 2, 3, 4]
+            let intendedArray = [1, 2, 4]
+            XCTAssertFalse(originalArray.elementsEqual(intendedArray))
+            originalArray = originalArray.removing(3)
+            XCTAssert(originalArray.elementsEqual(intendedArray))
+        }
 }

@@ -1,17 +1,15 @@
 //
-//  FileHelperTest.swift
+//  FileReaderTest.swift
 //  MauriUtilsTests
 //
 //  Created by Mauricio Chirino on 18/04/2019.
 //  Copyright © 2019 Mauricio Chirino. All rights reserved.
 //
 
-import Foundation
 import XCTest
 @testable import MauriUtils
 
-class FileHelperTest: XCTestCase {
-
+final class FileReaderTest: XCTestCase {
     let fileName = "Temporal.json"
     let folderPath = NSTemporaryDirectory()
 
@@ -43,22 +41,22 @@ class FileHelperTest: XCTestCase {
 
     func testJSONReadingFromBundle() {
         let testBundle: Bundle = Bundle.module.path(forResource: "validJSON", ofType: "json")
-        let localFile = FileHelper.read(in: Bundle(for: type(of: self)), from: "validJSON")
+        let localFile = FileReader.read(in: Bundle(for: type(of: self)), from: "validJSON")
         XCTAssertNotNil(localFile)
     }
 
     func testNonExistingFileFromBundle() {
-        let localFile = FileHelper.read(in: Bundle(for: type(of: self)), from: "", and: .text)
+        let localFile = FileReader.read(in: Bundle(for: type(of: self)), from: "", and: .text)
         XCTAssertNil(localFile)
     }
 
     func testReadLocalFile() {
         let path = folderPath + fileName
-        XCTAssertNotNil(FileHelper.readAt(url: path))
+        XCTAssertNotNil(FileReader.readAt(url: path))
     }
 
     func testFailingReadingOfLocalFile() {
-        XCTAssertNil(FileHelper.readAt(url: ""), "Returning nil if file isn't found")
+        XCTAssertNil(FileReader.readAt(url: ""), "Returning nil if file isn't found")
     }
 
 }
