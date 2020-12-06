@@ -13,7 +13,7 @@ public struct JSONDecodable {
     /// - Parameters:
     ///   - input: raw data
     ///   - strategy: decoding strategy for JSON type. Defaults to `.useDefaultKeys` type
-    /// - Throws: Possible `JSONDecodableError` exception along the way
+    /// - Throws: Possible `FileDecodableError` exception along the way
     /// - Returns: In case of success, a well formatted JSON output is produced 
     public static func map<T: Decodable>(input: Data,
                                          with strategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys) throws -> T {
