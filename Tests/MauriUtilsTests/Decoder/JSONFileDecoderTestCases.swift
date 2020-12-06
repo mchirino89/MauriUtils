@@ -32,6 +32,16 @@ final class JSONFileDecoderTestCases: XCTestCase {
         }
     }
 
+    func testCorruptedJSONDecodingFromAFileInBundle() {
+        // When
+        do {
+            let _: TestUser = try fileReader.decodeJSON(in: Bundle.module, from: "corruptJSON")
+            XCTFail("Corrupted JSON should throw an exception")
+        } catch let error {
+            XCTAssertEqual(error as? DecodeException, .unparseable)
+        }
+    }
+
     func testDecodingFromNonExistentFile() throws {
         // When
         do {
