@@ -6,7 +6,9 @@
 //  Copyright © 2020 Mauricio Chirino. All rights reserved.
 //
 
-import UIKit
+#if os(iOS)
+    import UIKit
+#endif
 
 public extension UICollectionView {
     func register(cellType: AnyClass) {

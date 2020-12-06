@@ -10,7 +10,4 @@ import UIKit
 
 final class TestTableViewCell: UITableViewCell {
     var testAttribute: String?
-    var cellId: String {
-        return String(describing: self)
-    }
 }

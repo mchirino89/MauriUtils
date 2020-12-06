@@ -9,8 +9,7 @@
 import XCTest
 @testable import MauriUtils
 
-class DecoderTests: XCTestCase {
-
+final class DecoderTests: XCTestCase {
     func testDecoding() {
         var userRawData: Data {
             return Data("""
@@ -21,8 +20,8 @@ class DecoderTests: XCTestCase {
                 }
             """.utf8)
         }
-        let userDecoded: TestUser = try! JSONDecodable.map(input: userRawData)
-        let temporalUser = TestUser()
+        let userDecoded: TestUserMock = try! JSONDecodable.map(input: userRawData)
+        let temporalUser = TestUserMock()
         XCTAssert(userDecoded == temporalUser)
     }
 
@@ -37,8 +36,8 @@ class DecoderTests: XCTestCase {
             """.utf8)
         }
         do {
-            let _: TestUser = try JSONDecodable.map(input: userRawData)
-        } catch let error as JSONDecodableError {
+            let _: TestUserMock = try JSONDecodable.map(input: userRawData)
+        } catch let error as FileDecodableError {
             switch error {
             case .missingKey(_):
                 XCTAssert(true)
@@ -47,7 +46,6 @@ class DecoderTests: XCTestCase {
                 XCTAssert(false)
             }
         } catch { }
-        XCTAssert(false)
     }
 
     func testMissingValue() {
@@ -61,8 +59,8 @@ class DecoderTests: XCTestCase {
             """.utf8)
         }
         do {
-            let _: TestUser = try JSONDecodable.map(input: userRawData)
-        } catch let error as JSONDecodableError {
+            let _: TestUserMock = try JSONDecodable.map(input: userRawData)
+        } catch let error as FileDecodableError {
             switch error {
             case .missingValue(_):
                 XCTAssert(true)
@@ -71,7 +69,6 @@ class DecoderTests: XCTestCase {
                 XCTAssert(false)
             }
         } catch { }
-        XCTAssert(false)
     }
 
     func testDataWrongFormat() {
@@ -85,8 +82,8 @@ class DecoderTests: XCTestCase {
             """.utf8)
         }
         do {
-            let _: TestUser = try JSONDecodable.map(input: userRawData)
-        } catch let error as JSONDecodableError {
+            let _: TestUserMock = try JSONDecodable.map(input: userRawData)
+        } catch let error as FileDecodableError {
             switch error {
             case .wrongFormat(_):
                 XCTAssert(true)
@@ -95,7 +92,6 @@ class DecoderTests: XCTestCase {
                 XCTAssert(false)
             }
         } catch { }
-        XCTAssert(false)
     }
 
     func testCorruptedData() {
@@ -109,8 +105,8 @@ class DecoderTests: XCTestCase {
             """.utf8)
         }
         do {
-            let _: TestUser = try JSONDecodable.map(input: userRawData)
-        } catch let error as JSONDecodableError {
+            let _: TestUserMock = try JSONDecodable.map(input: userRawData)
+        } catch let error as FileDecodableError {
             switch error {
             case .dataCorrupted(_):
                 XCTAssert(true)
@@ -119,7 +115,6 @@ class DecoderTests: XCTestCase {
                 XCTAssert(false)
             }
         } catch { }
-        XCTAssert(false)
     }
 
 }
