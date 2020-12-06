@@ -20,18 +20,8 @@ public struct PlistDecodable {
 
         do {
             return try decoder.decode(T.self, from: input)
-        } catch DecodingError.keyNotFound(let missingkey, _) {
-            debugPrint("Missing key: \(missingkey.stringValue).")
-            throw FileDecodableError.missingKey(missingkey)
-        } catch DecodingError.valueNotFound(let missingValue, let context) {
-            debugPrint("Missing value for: \(missingValue). \(context.debugDescription)")
-            throw FileDecodableError.missingValue(missingValue)
-        } catch DecodingError.typeMismatch(let missMatch, let context) {
-            debugPrint("Wrong type for: \(missMatch). \(context.debugDescription)")
-            throw FileDecodableError.wrongFormat(missMatch)
-        } catch DecodingError.dataCorrupted(let context) {
-            debugPrint("Data is corrupted. \(context.debugDescription).")
-            throw FileDecodableError.dataCorrupted(context)
+        } catch let error {
+            throw FileDecodableError.handleException(basedOn: error)
         }
     }
 }

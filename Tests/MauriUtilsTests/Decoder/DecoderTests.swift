@@ -46,7 +46,6 @@ final class DecoderTests: XCTestCase {
                 XCTAssert(false)
             }
         } catch { }
-        XCTAssert(false)
     }
 
     func testMissingValue() {
@@ -70,7 +69,6 @@ final class DecoderTests: XCTestCase {
                 XCTAssert(false)
             }
         } catch { }
-        XCTAssert(false)
     }
 
     func testDataWrongFormat() {
@@ -94,7 +92,6 @@ final class DecoderTests: XCTestCase {
                 XCTAssert(false)
             }
         } catch { }
-        XCTAssert(false)
     }
 
     func testCorruptedData() {
@@ -118,7 +115,6 @@ final class DecoderTests: XCTestCase {
                 XCTAssert(false)
             }
         } catch { }
-        XCTAssert(false)
     }
 
 }

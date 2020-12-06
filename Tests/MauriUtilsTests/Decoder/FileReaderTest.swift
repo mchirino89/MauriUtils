@@ -31,15 +31,8 @@ final class FileReaderTest: XCTestCase {
                                                  withIntermediateDirectories: true,
                                                  attributes: nil)
         let filePath = folderPath.appending(fileName)
-        guard let json = try? JSONEncoder().encode(TestUserMock()) else {
-            XCTFail("Something went wrong when encoding test User structure")
-            return
-        }
-        do {
-            try json.write(to: URL(fileURLWithPath: filePath))
-        } catch {
-            debugPrint("Failed to write JSON data: \(error.localizedDescription)")
-        }
+        let json = try! JSONEncoder().encode(TestUserMock())
+        try! json.write(to: URL(fileURLWithPath: filePath))
     }
 
     func testJSONReadingFromBundle() {
