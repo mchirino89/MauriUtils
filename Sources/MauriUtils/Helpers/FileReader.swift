@@ -9,6 +9,7 @@
 import Foundation
 
 public struct FileReader {
+    public init() { }
     /// Reads data from a specified file
     /// - Parameters:
     ///   - bundle: project's `bundle` where the file should be looked on. Defaults to the `.main` one
