@@ -21,17 +21,17 @@ public enum FileDecodableError: Error {
         }
 
         switch parsedError {
-        case .keyNotFound(let missingkey, _):
-            debugPrint("Missing key: \(missingkey.stringValue).")
-            return .missingKey(missingkey)
+        case .keyNotFound(let missingKey, let context):
+            debugPrint("Missing key: \(missingKey.stringValue). \(context.debugDescription)")
+            return .missingKey(missingKey)
         case .valueNotFound(let missingValue, let context):
             debugPrint("Missing value for: \(missingValue). \(context.debugDescription)")
             return .missingValue(missingValue)
-        case .typeMismatch(let missMatch, let context):
-            debugPrint("Wrong type for: \(missMatch). \(context.debugDescription)")
-            return .wrongFormat(missMatch)
+        case .typeMismatch(let misMatch, let context):
+            debugPrint("Wrong type for: \(misMatch). \(context.debugDescription)")
+            return .wrongFormat(misMatch)
         case .dataCorrupted(let context):
-            debugPrint("Data is corruputed. \(context.debugDescription).")
+            debugPrint("Data is corrupted. \(context.debugDescription).")
             return .dataCorrupted(context)
         @unknown default:
             debugPrint("Unhandled scenario")

@@ -25,7 +25,7 @@ final class DecoderTests: XCTestCase {
         XCTAssert(userDecoded == temporalUser)
     }
 
-    func testMissingKey() {
+    func testMissingKey() throws {
         var userRawData: Data {
             return Data("""
                 {
@@ -45,10 +45,10 @@ final class DecoderTests: XCTestCase {
             default:
                 XCTAssert(false)
             }
-        } catch { }
+        }
     }
 
-    func testMissingValue() {
+    func testMissingValue() throws {
         var userRawData: Data {
             return Data("""
                 {
@@ -68,10 +68,10 @@ final class DecoderTests: XCTestCase {
             default:
                 XCTAssert(false)
             }
-        } catch { }
+        }
     }
 
-    func testDataWrongFormat() {
+    func testDataWrongFormat() throws {
         var userRawData: Data {
             return Data("""
                 {
@@ -85,16 +85,16 @@ final class DecoderTests: XCTestCase {
             let _: TestUserMock = try JSONDecodable.map(input: userRawData)
         } catch let error as FileDecodableError {
             switch error {
-            case .wrongFormat(_):
-                XCTAssert(true)
+            case .wrongFormat(let mismatchInfo):
+                XCTAssertNotNil(mismatchInfo)
                 return
             default:
-                XCTAssert(false)
+                XCTFail("Wrong error type catched")
             }
-        } catch { }
+        }
     }
 
-    func testCorruptedData() {
+    func testCorruptedData() throws {
         var userRawData: Data {
             return Data("""
                 {
@@ -112,9 +112,9 @@ final class DecoderTests: XCTestCase {
                 XCTAssert(true)
                 return
             default:
-                XCTAssert(false)
+                XCTFail("Wrong error type catched")
             }
-        } catch { }
+        }
     }
 
 }
