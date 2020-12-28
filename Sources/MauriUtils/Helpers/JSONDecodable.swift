@@ -13,12 +13,14 @@ public struct JSONDecodable {
     /// - Parameters:
     ///   - input: raw data
     ///   - strategy: decoding strategy for JSON type. Defaults to `.useDefaultKeys` type
+    ///   - dateDecoding: date decoding strategy. Defaults to `.iso8601` standard type
     /// - Throws: Possible `FileDecodableError` exception along the way
-    /// - Returns: In case of success, a well formatted JSON output is produced 
+    /// - Returns: In case of success, a well formatted JSON output is produced
     public static func map<T: Decodable>(input: Data,
-                                         with strategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys) throws -> T {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = strategy
+                                         with strategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys,
+                                         dateDecoding: JSONDecoder.DateDecodingStrategy = .iso8601) throws -> T {
+        let decoder = Decoder.buildJSONParser(for: strategy, dateDecoding: dateDecoding)
+
         do {
             return try decoder.decode(T.self, from: input)
         } catch let error {
