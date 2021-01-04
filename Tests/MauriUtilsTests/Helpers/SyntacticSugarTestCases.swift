@@ -10,20 +10,16 @@ import XCTest
 
 final class SyntacticSugarTestCases: XCTestCase {
     var expectationForUI: XCTestExpectation!
-    var dummyController: UIViewController!
     var dummyLabel: UILabel!
 
     override func setUp() {
         super.setUp()
         expectationForUI = expectation(description: "Update UI safely")
-        dummyController = UIViewController()
-        dummyLabel = UILabel()
     }
 
     override func tearDown() {
         super.tearDown()
         expectationForUI = nil
-        dummyController = nil
         dummyLabel = nil
     }
 
@@ -42,7 +38,7 @@ final class SyntacticSugarTestCases: XCTestCase {
 
 private extension SyntacticSugarTestCases {
     func givenInitialSetupForUI() {
-        dummyController.view.addSubview(dummyLabel)
+        dummyLabel = UILabel()
     }
 
     func whenUpdateIsExecutedInBackgroundThread() {
