@@ -7,9 +7,9 @@
 
 import Foundation
 
-/// Performs UI update safely
+/// Performs an update on main thread safely
 /// - Parameter closure: closure with update execution
-func performUIUpdate(using closure: @escaping () -> Void) {
+func executeMainThreadUpdate(using closure: @escaping () -> Void) {
     // If we're already on the main thread, execute it directly
     if Thread.isMainThread {
         closure()

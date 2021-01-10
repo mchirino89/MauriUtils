@@ -9,36 +9,36 @@ import XCTest
 @testable import MauriUtils
 
 final class SyntacticSugarTestCases: XCTestCase {
-    var expectationForUI: XCTestExpectation!
-    var dummyLabel: UILabel!
+    var expectation: XCTestExpectation!
+    var dummyArray: [Int]!
 
     override func setUp() {
         super.setUp()
-        expectationForUI = expectation(description: "Update UI safely")
+        expectation = expectation(description: "Update on main thread safely")
     }
 
     override func tearDown() {
         super.tearDown()
-        expectationForUI = nil
-        dummyLabel = nil
+        expectation = nil
+        dummyArray.removeAll()
     }
 
     func testSafelyBackgroundThreadUpdate() {
-        givenInitialSetupForUI()
+        givenInitialSetup()
         whenUpdateIsExecutedInBackgroundThread()
-        thenVerifyUIWasUpdatedProperly()
+        thenVerifyProperUpdate()
     }
 
     func testDirectMainThreadRun() {
-        givenInitialSetupForUI()
+        givenInitialSetup()
         whenOperationIsExecutedInTheMainThread()
-        thenVerifyUIWasUpdatedProperly()
+        thenVerifyProperUpdate()
     }
 }
 
 private extension SyntacticSugarTestCases {
-    func givenInitialSetupForUI() {
-        dummyLabel = UILabel()
+    func givenInitialSetup() {
+        dummyArray = []
     }
 
     func whenUpdateIsExecutedInBackgroundThread() {
@@ -48,15 +48,15 @@ private extension SyntacticSugarTestCases {
     }
 
     func whenOperationIsExecutedInTheMainThread() {
-        performUIUpdate { [unowned self] in
-            dummyLabel.text = "lorem ipsum"
-            expectationForUI.fulfill()
+        executeMainThreadUpdate { [unowned self] in
+            dummyArray.append(contentsOf: [1, 2, 3])
+            expectation.fulfill()
         }
     }
 
-    func thenVerifyUIWasUpdatedProperly() {
+    func thenVerifyProperUpdate() {
         waitForExpectations(timeout: 0.01) { [unowned self] _ in
-            XCTAssertEqual(dummyLabel.text, "lorem ipsum")
+            XCTAssertEqual(dummyArray.count, 3)
         }
     }
 }
