@@ -55,7 +55,7 @@ private extension SyntacticSugarTestCases {
     }
 
     func thenVerifyProperUpdate() {
-        waitForExpectations(timeout: 0.01) { [unowned self] _ in
+        waitForExpectations(timeout: 1) { [unowned self] _ in
             XCTAssertEqual(dummyArray.count, 3)
         }
     }
