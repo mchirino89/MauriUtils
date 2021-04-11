@@ -8,7 +8,7 @@
 import Foundation
 
 /// Wrapper that notifies whenever modifications happen to the stored value
-public final class Dynamic<T> {
+open class Dynamic<T> {
     public typealias Listener = (T) -> Void
 
     /// Stored listener reference.

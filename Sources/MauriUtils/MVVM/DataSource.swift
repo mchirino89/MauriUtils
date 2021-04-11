@@ -8,7 +8,7 @@
 import Foundation
 
 /// Wrapper for dynamic data source object. Ideally to use MVVM presentation design pattern on `UITableView` and/or `UICollectionView`
-public class DataSource<T>: NSObject {
+open class DataSource<T>: NSObject {
     /// In memory generic data
     public var data: Dynamic<[T]>
 
